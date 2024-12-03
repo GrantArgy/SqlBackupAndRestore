@@ -1,13 +1,23 @@
-﻿using System;
+﻿using SqlBackupAndRestore.Properties;
+using SqlBackupAndRestore.Sql;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SqlBackupAndRestore
 {
-  public partial class MainForm : Form
+  internal sealed partial class MainForm : Form
   {
+
+    #region Properties
+
+    private SqlConnectionInfo ConnectionInfo { get; set; } = new SqlConnectionInfo();
+
+    #endregion
 
     #region Constructors
 
@@ -24,6 +34,10 @@ namespace SqlBackupAndRestore
     {
       base.OnLoad(e);
       ClientSize = new System.Drawing.Size(458, 310);
+      LoadSettings();
+      InitialiseSqlServer();
+      RefreshSqlServerDetails();
+      RefreshBackupAndRestoreDatabaseButtons();
     }
 
     #endregion
@@ -82,17 +96,132 @@ namespace SqlBackupAndRestore
 
     #region Helper Methods
 
+    private void LoadSettings()
+    {
+      ConnectionInfo.Server = Settings.Default.SqlServer;
+      ConnectionInfo.IntegratedSecurity = Settings.Default.SqlIntegratedSecurity;
+      ConnectionInfo.UserName = Settings.Default.SqlUserName;
+      ConnectionInfo.Password = Settings.Default.SqlPassword;
+
+      RestoreSourceFile.Text = Settings.Default.RestoreSourceFile;
+      RestoreDestinationDatabaseList.Text = Settings.Default.RestoreDestinationDatabaseName;
+      BackupDestinationFile.Text = Settings.Default.BackupDestinationFile;
+      BackupSourceDatabaseList.Text= Settings.Default.BackupSourceDatabaseName;
+    }
+
+    private void SaveSettings()
+    {
+      Settings.Default.SqlServer = ConnectionInfo.Server;
+      Settings.Default.SqlIntegratedSecurity = ConnectionInfo.IntegratedSecurity;
+      Settings.Default.SqlUserName = ConnectionInfo.UserName;
+      Settings.Default.SqlPassword = ConnectionInfo.Password;
+
+      Settings.Default.RestoreSourceFile = RestoreSourceFile.Text;
+      Settings.Default.RestoreDestinationDatabaseName = RestoreDestinationDatabaseList.Text;
+      Settings.Default.BackupDestinationFile = BackupDestinationFile.Text;
+      Settings.Default.BackupSourceDatabaseName = BackupSourceDatabaseList.Text;
+      Settings.Default.Save();
+    }
+
     private void ChangeSqlServer()
     {
-      using (var dlg = new SqlConnectionForm())
+      using (var dlg = new SqlConnectionForm(ConnectionInfo))
       {
         if (dlg.ShowDialog(this) == DialogResult.OK)
         {
-          //RefreshSqlServer();
-          //SuggestDatabase();
-          //SaveSettings();
+          RefreshSqlServerDetails();
+          SuggestRestoreDestinationDatabase();
+          RefreshBackupAndRestoreDatabaseButtons();
+          SaveSettings();
         }
       }
+    }
+
+    private void SuggestBackupDesinationFile()
+    {
+
+    }
+
+    private void SuggestRestoreDestinationDatabase()
+    {
+      string sourceFile = string.Empty;
+      List<string> databaseList = new List<string>();
+
+      try
+      {
+        sourceFile = RestoreSourceFile.Text.Trim();
+        databaseList = RestoreDestinationDatabaseList.Items.Cast<string>().ToList();
+
+        if (string.IsNullOrWhiteSpace(sourceFile) == false && File.Exists(sourceFile))
+          RestoreDestinationDatabaseList.Text = SqlRestore.GetSuggestedRestoreDatabaseName(ConnectionInfo, sourceFile, databaseList);
+      }
+      catch
+      {
+        RestoreDestinationDatabaseList.Text = string.Empty;
+      }
+    }
+
+    private void InitialiseSqlServer()
+    {
+      if (string.IsNullOrEmpty(ConnectionInfo.Server))
+      {
+        string error = string.Empty;
+        var server = new SqlConnectionInfo { IntegratedSecurity = true };
+        try
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          server.Server = ".";
+          if (server.CanOpenConnection(out error, 1) == false)
+          {
+            server.Server = @".\SQLEXPRESS";
+            if (server.CanOpenConnection(out error, 1) == false)
+            {
+              throw new ApplicationException("no sql server found");
+            }
+          }
+        }
+        catch
+        {
+          server.Server = string.Empty;
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Arrow;
+        }
+        if (string.IsNullOrEmpty(server.Server) == false)
+        {
+          ConnectionInfo = server;
+          SaveSettings();
+        }
+      }
+    }
+
+    private void RefreshSqlServerDetails()
+    {
+      RestoreDestinationSqlServer.Text = ConnectionInfo.Server;
+      BackupSourceSqlServer.Text = RestoreDestinationSqlServer.Text;
+
+      RestoreDestinationChangeSqlServer.Text = string.IsNullOrEmpty(ConnectionInfo.Server) ? "Connect" : "Change";
+      BackupSourceChangeSqlServer.Text = RestoreDestinationChangeSqlServer.Text;
+
+      List<string> databases = string.IsNullOrEmpty(ConnectionInfo.Server) ? new List<string>() : ConnectionInfo.GetDatabases();
+      RestoreDestinationDatabaseList.Items.Clear();
+      RestoreDestinationDatabaseList.Items.AddRange(databases.Where(obj => ConnectionInfo.IsSystemDatabase(obj) == false).ToArray<object>());
+      BackupSourceDatabaseList.Items.Clear();
+      BackupSourceDatabaseList.Items.AddRange(databases.Where(obj => ConnectionInfo.IsSystemDatabase(obj) == false).ToArray<object>());
+    }
+
+    private void RefreshBackupAndRestoreDatabaseButtons()
+    {
+      RestoreDatabaseButton.Enabled = RestoreSourceFile.Text.Trim().Length > 0 &&
+                                      Directory.Exists(Path.GetFullPath(BackupDestinationFile.Text.Trim())) &&
+                                      RestoreDestinationDatabaseList.Text.Trim().Length > 0 &&
+                                      ConnectionInfo.Server.Trim().Length > 0;
+      
+      BackupDatabaseButton.Enabled = BackupDestinationFile.Text.Trim().Length > 0 &&
+                                     File.Exists(BackupDestinationFile.Text.Trim()) &&                            
+                                     BackupSourceDatabaseList.Text.Trim().Length > 0 &&
+                                     ConnectionInfo.Server.Trim().Length > 0;
     }
 
     private string BrowseFile(string fileName, bool isSource)
