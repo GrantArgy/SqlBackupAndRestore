@@ -30,18 +30,13 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.MainMenu = new System.Windows.Forms.MenuStrip();
-      this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.backupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.restoreMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.setFileAssociationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.CommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.BackupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.RestoreMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.SetFileAssociationMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.RestorePanel = new System.Windows.Forms.Panel();
-      this.BackupPanel = new System.Windows.Forms.Panel();
-      this.RestoreHeaderPanel = new System.Windows.Forms.Panel();
-      this.RestoreHeaderLabel = new System.Windows.Forms.Label();
-      this.BackupHeaderPanel = new System.Windows.Forms.Panel();
-      this.BackupHeaderLabel = new System.Windows.Forms.Label();
       this.RestoreStatusLabel = new System.Windows.Forms.Label();
       this.RestoreProgress = new System.Windows.Forms.ProgressBar();
       this.RestoreDatabaseButton = new System.Windows.Forms.Button();
@@ -55,88 +50,95 @@
       this.RestoreDestinationSqlServer = new System.Windows.Forms.Label();
       this.RestoreDestinationDatabaseLabel = new System.Windows.Forms.Label();
       this.RestoreDestinationSqlServerLabel = new System.Windows.Forms.Label();
+      this.RestoreHeaderPanel = new System.Windows.Forms.Panel();
+      this.RestoreMessageLabel = new System.Windows.Forms.Label();
+      this.RestoreHeaderLabel = new System.Windows.Forms.Label();
+      this.BackupPanel = new System.Windows.Forms.Panel();
+      this.BackupStatusLabel = new System.Windows.Forms.Label();
+      this.BackupProgress = new System.Windows.Forms.ProgressBar();
+      this.BackupDatabaseButton = new System.Windows.Forms.Button();
+      this.BackupDestinationGroup = new System.Windows.Forms.GroupBox();
+      this.BackupBrowseFileButton = new System.Windows.Forms.Button();
+      this.BackupDestinationFile = new System.Windows.Forms.TextBox();
+      this.BackupDestinationLabel = new System.Windows.Forms.Label();
       this.BackupSourceGroup = new System.Windows.Forms.GroupBox();
       this.BackupSourceDatabaseList = new System.Windows.Forms.ComboBox();
       this.BackupSourceChangeSqlServer = new System.Windows.Forms.LinkLabel();
       this.BackupSourceSqlServer = new System.Windows.Forms.Label();
       this.BackupSourceDatabaseLabel = new System.Windows.Forms.Label();
       this.BackupSourceSqlServerLabel = new System.Windows.Forms.Label();
-      this.BackupDestinationGroup = new System.Windows.Forms.GroupBox();
-      this.BackupBrowseFileButton = new System.Windows.Forms.Button();
-      this.DestinationSourceFile = new System.Windows.Forms.TextBox();
-      this.BackupDestinationLabel = new System.Windows.Forms.Label();
-      this.BackupStatusLabel = new System.Windows.Forms.Label();
-      this.BackupProgress = new System.Windows.Forms.ProgressBar();
-      this.BackupDatabaseButton = new System.Windows.Forms.Button();
-      this.RestoreMessageLabel = new System.Windows.Forms.Label();
+      this.BackupHeaderPanel = new System.Windows.Forms.Panel();
       this.BackupMessageLabel = new System.Windows.Forms.Label();
+      this.BackupHeaderLabel = new System.Windows.Forms.Label();
       this.MainMenu.SuspendLayout();
       this.RestorePanel.SuspendLayout();
-      this.BackupPanel.SuspendLayout();
-      this.RestoreHeaderPanel.SuspendLayout();
-      this.BackupHeaderPanel.SuspendLayout();
       this.REstoreSourceGroup.SuspendLayout();
       this.RestoreDestinationGroup.SuspendLayout();
-      this.BackupSourceGroup.SuspendLayout();
+      this.RestoreHeaderPanel.SuspendLayout();
+      this.BackupPanel.SuspendLayout();
       this.BackupDestinationGroup.SuspendLayout();
+      this.BackupSourceGroup.SuspendLayout();
+      this.BackupHeaderPanel.SuspendLayout();
       this.SuspendLayout();
       // 
       // MainMenu
       // 
       this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.commandsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.CommandMenuItem,
+            this.HelpMenuItem});
       this.MainMenu.Location = new System.Drawing.Point(0, 0);
       this.MainMenu.Name = "MainMenu";
       this.MainMenu.Size = new System.Drawing.Size(1029, 24);
       this.MainMenu.TabIndex = 0;
       this.MainMenu.Text = "menuStrip1";
       // 
-      // commandsToolStripMenuItem
+      // CommandMenuItem
       // 
-      this.commandsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.backupMenuItem,
-            this.restoreMenuItem,
-            this.setFileAssociationToolStripMenuItem});
-      this.commandsToolStripMenuItem.Name = "commandsToolStripMenuItem";
-      this.commandsToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-      this.commandsToolStripMenuItem.Text = "Commands";
+      this.CommandMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BackupMenuItem,
+            this.RestoreMenuItem,
+            this.SetFileAssociationMenuItem});
+      this.CommandMenuItem.Name = "CommandMenuItem";
+      this.CommandMenuItem.Size = new System.Drawing.Size(81, 20);
+      this.CommandMenuItem.Text = "Commands";
       // 
-      // backupMenuItem
+      // BackupMenuItem
       // 
-      this.backupMenuItem.Name = "backupMenuItem";
-      this.backupMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.backupMenuItem.Text = "Backup";
-      this.backupMenuItem.Click += new System.EventHandler(this.backupMenuItem_Click);
+      this.BackupMenuItem.Name = "BackupMenuItem";
+      this.BackupMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.BackupMenuItem.Text = "Backup";
+      this.BackupMenuItem.Click += new System.EventHandler(this.BackupMenuItem_Click);
       // 
-      // restoreMenuItem
+      // RestoreMenuItem
       // 
-      this.restoreMenuItem.Checked = true;
-      this.restoreMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.restoreMenuItem.Name = "restoreMenuItem";
-      this.restoreMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.restoreMenuItem.Text = "Restore";
-      this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
+      this.RestoreMenuItem.Checked = true;
+      this.RestoreMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.RestoreMenuItem.Name = "RestoreMenuItem";
+      this.RestoreMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.RestoreMenuItem.Text = "Restore";
+      this.RestoreMenuItem.Click += new System.EventHandler(this.RestoreMenuItem_Click);
       // 
-      // helpToolStripMenuItem
+      // SetFileAssociationMenuItem
       // 
-      this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-      this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-      this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-      this.helpToolStripMenuItem.Text = "Help";
+      this.SetFileAssociationMenuItem.Name = "SetFileAssociationMenuItem";
+      this.SetFileAssociationMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.SetFileAssociationMenuItem.Text = "Set File Association";
+      this.SetFileAssociationMenuItem.Click += new System.EventHandler(this.SetFileAssociationMenuItem_Click);
       // 
-      // aboutToolStripMenuItem
+      // HelpMenuItem
       // 
-      this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.aboutToolStripMenuItem.Text = "About";
+      this.HelpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AboutMenuItem});
+      this.HelpMenuItem.Name = "HelpMenuItem";
+      this.HelpMenuItem.Size = new System.Drawing.Size(44, 20);
+      this.HelpMenuItem.Text = "Help";
       // 
-      // setFileAssociationToolStripMenuItem
+      // AboutMenuItem
       // 
-      this.setFileAssociationToolStripMenuItem.Name = "setFileAssociationToolStripMenuItem";
-      this.setFileAssociationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.setFileAssociationToolStripMenuItem.Text = "Set File Association";
+      this.AboutMenuItem.Name = "AboutMenuItem";
+      this.AboutMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.AboutMenuItem.Text = "About";
+      this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
       // 
       // RestorePanel
       // 
@@ -150,62 +152,6 @@
       this.RestorePanel.Name = "RestorePanel";
       this.RestorePanel.Size = new System.Drawing.Size(458, 283);
       this.RestorePanel.TabIndex = 1;
-      // 
-      // BackupPanel
-      // 
-      this.BackupPanel.Controls.Add(this.BackupStatusLabel);
-      this.BackupPanel.Controls.Add(this.BackupProgress);
-      this.BackupPanel.Controls.Add(this.BackupDatabaseButton);
-      this.BackupPanel.Controls.Add(this.BackupDestinationGroup);
-      this.BackupPanel.Controls.Add(this.BackupSourceGroup);
-      this.BackupPanel.Controls.Add(this.BackupHeaderPanel);
-      this.BackupPanel.Location = new System.Drawing.Point(469, 27);
-      this.BackupPanel.Name = "BackupPanel";
-      this.BackupPanel.Size = new System.Drawing.Size(458, 283);
-      this.BackupPanel.TabIndex = 2;
-      this.BackupPanel.Visible = false;
-      // 
-      // RestoreHeaderPanel
-      // 
-      this.RestoreHeaderPanel.BackColor = System.Drawing.Color.White;
-      this.RestoreHeaderPanel.Controls.Add(this.RestoreMessageLabel);
-      this.RestoreHeaderPanel.Controls.Add(this.RestoreHeaderLabel);
-      this.RestoreHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
-      this.RestoreHeaderPanel.Location = new System.Drawing.Point(0, 0);
-      this.RestoreHeaderPanel.Name = "RestoreHeaderPanel";
-      this.RestoreHeaderPanel.Size = new System.Drawing.Size(458, 62);
-      this.RestoreHeaderPanel.TabIndex = 0;
-      // 
-      // RestoreHeaderLabel
-      // 
-      this.RestoreHeaderLabel.AutoSize = true;
-      this.RestoreHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.RestoreHeaderLabel.Location = new System.Drawing.Point(8, 18);
-      this.RestoreHeaderLabel.Name = "RestoreHeaderLabel";
-      this.RestoreHeaderLabel.Size = new System.Drawing.Size(75, 24);
-      this.RestoreHeaderLabel.TabIndex = 0;
-      this.RestoreHeaderLabel.Text = "Restore";
-      // 
-      // BackupHeaderPanel
-      // 
-      this.BackupHeaderPanel.BackColor = System.Drawing.Color.White;
-      this.BackupHeaderPanel.Controls.Add(this.BackupMessageLabel);
-      this.BackupHeaderPanel.Controls.Add(this.BackupHeaderLabel);
-      this.BackupHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
-      this.BackupHeaderPanel.Location = new System.Drawing.Point(0, 0);
-      this.BackupHeaderPanel.Name = "BackupHeaderPanel";
-      this.BackupHeaderPanel.Size = new System.Drawing.Size(458, 62);
-      this.BackupHeaderPanel.TabIndex = 1;
-      // 
-      // BackupHeaderLabel
-      // 
-      this.BackupHeaderLabel.AutoSize = true;
-      this.BackupHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.BackupHeaderLabel.Location = new System.Drawing.Point(8, 18);
-      this.BackupHeaderLabel.Name = "BackupHeaderLabel";
-      this.BackupHeaderLabel.Size = new System.Drawing.Size(73, 24);
-      this.BackupHeaderLabel.TabIndex = 0;
-      this.BackupHeaderLabel.Text = "Backup";
       // 
       // RestoreStatusLabel
       // 
@@ -265,6 +211,7 @@
       this.RestoreBrowseFileButton.TabIndex = 2;
       this.RestoreBrowseFileButton.Text = "...";
       this.RestoreBrowseFileButton.UseVisualStyleBackColor = true;
+      this.RestoreBrowseFileButton.Click += new System.EventHandler(this.RestoreBrowseFileButton_Click);
       // 
       // RestoreSourceFile
       // 
@@ -330,6 +277,7 @@
       this.RestoreDestinationChangeSqlServer.TabIndex = 4;
       this.RestoreDestinationChangeSqlServer.TabStop = true;
       this.RestoreDestinationChangeSqlServer.Text = "Change";
+      this.RestoreDestinationChangeSqlServer.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.RestoreDestinationChangeSqlServer_LinkClicked);
       // 
       // RestoreDestinationSqlServer
       // 
@@ -360,6 +308,133 @@
       this.RestoreDestinationSqlServerLabel.Size = new System.Drawing.Size(65, 13);
       this.RestoreDestinationSqlServerLabel.TabIndex = 0;
       this.RestoreDestinationSqlServerLabel.Text = "SQL Server:";
+      // 
+      // RestoreHeaderPanel
+      // 
+      this.RestoreHeaderPanel.BackColor = System.Drawing.Color.White;
+      this.RestoreHeaderPanel.Controls.Add(this.RestoreMessageLabel);
+      this.RestoreHeaderPanel.Controls.Add(this.RestoreHeaderLabel);
+      this.RestoreHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
+      this.RestoreHeaderPanel.Location = new System.Drawing.Point(0, 0);
+      this.RestoreHeaderPanel.Name = "RestoreHeaderPanel";
+      this.RestoreHeaderPanel.Size = new System.Drawing.Size(458, 62);
+      this.RestoreHeaderPanel.TabIndex = 0;
+      // 
+      // RestoreMessageLabel
+      // 
+      this.RestoreMessageLabel.AutoSize = true;
+      this.RestoreMessageLabel.Location = new System.Drawing.Point(102, 5);
+      this.RestoreMessageLabel.Name = "RestoreMessageLabel";
+      this.RestoreMessageLabel.Size = new System.Drawing.Size(344, 52);
+      this.RestoreMessageLabel.TabIndex = 1;
+      this.RestoreMessageLabel.Text = resources.GetString("RestoreMessageLabel.Text");
+      // 
+      // RestoreHeaderLabel
+      // 
+      this.RestoreHeaderLabel.AutoSize = true;
+      this.RestoreHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.RestoreHeaderLabel.Location = new System.Drawing.Point(8, 18);
+      this.RestoreHeaderLabel.Name = "RestoreHeaderLabel";
+      this.RestoreHeaderLabel.Size = new System.Drawing.Size(75, 24);
+      this.RestoreHeaderLabel.TabIndex = 0;
+      this.RestoreHeaderLabel.Text = "Restore";
+      // 
+      // BackupPanel
+      // 
+      this.BackupPanel.Controls.Add(this.BackupStatusLabel);
+      this.BackupPanel.Controls.Add(this.BackupProgress);
+      this.BackupPanel.Controls.Add(this.BackupDatabaseButton);
+      this.BackupPanel.Controls.Add(this.BackupDestinationGroup);
+      this.BackupPanel.Controls.Add(this.BackupSourceGroup);
+      this.BackupPanel.Controls.Add(this.BackupHeaderPanel);
+      this.BackupPanel.Location = new System.Drawing.Point(469, 27);
+      this.BackupPanel.Name = "BackupPanel";
+      this.BackupPanel.Size = new System.Drawing.Size(458, 283);
+      this.BackupPanel.TabIndex = 2;
+      this.BackupPanel.Visible = false;
+      // 
+      // BackupStatusLabel
+      // 
+      this.BackupStatusLabel.AutoSize = true;
+      this.BackupStatusLabel.Location = new System.Drawing.Point(25, 243);
+      this.BackupStatusLabel.Name = "BackupStatusLabel";
+      this.BackupStatusLabel.Size = new System.Drawing.Size(0, 13);
+      this.BackupStatusLabel.TabIndex = 15;
+      this.BackupStatusLabel.Visible = false;
+      // 
+      // BackupProgress
+      // 
+      this.BackupProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.BackupProgress.Location = new System.Drawing.Point(21, 259);
+      this.BackupProgress.Name = "BackupProgress";
+      this.BackupProgress.Size = new System.Drawing.Size(297, 10);
+      this.BackupProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+      this.BackupProgress.TabIndex = 14;
+      this.BackupProgress.Visible = false;
+      // 
+      // BackupDatabaseButton
+      // 
+      this.BackupDatabaseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.BackupDatabaseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+      this.BackupDatabaseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupDatabaseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.BackupDatabaseButton.Location = new System.Drawing.Point(324, 243);
+      this.BackupDatabaseButton.Name = "BackupDatabaseButton";
+      this.BackupDatabaseButton.Size = new System.Drawing.Size(123, 31);
+      this.BackupDatabaseButton.TabIndex = 13;
+      this.BackupDatabaseButton.Text = "Backup";
+      this.BackupDatabaseButton.UseVisualStyleBackColor = true;
+      // 
+      // BackupDestinationGroup
+      // 
+      this.BackupDestinationGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.BackupDestinationGroup.Controls.Add(this.BackupBrowseFileButton);
+      this.BackupDestinationGroup.Controls.Add(this.BackupDestinationFile);
+      this.BackupDestinationGroup.Controls.Add(this.BackupDestinationLabel);
+      this.BackupDestinationGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupDestinationGroup.Location = new System.Drawing.Point(12, 180);
+      this.BackupDestinationGroup.Name = "BackupDestinationGroup";
+      this.BackupDestinationGroup.Size = new System.Drawing.Size(435, 57);
+      this.BackupDestinationGroup.TabIndex = 10;
+      this.BackupDestinationGroup.TabStop = false;
+      this.BackupDestinationGroup.Text = "Destination (Backup)";
+      // 
+      // BackupBrowseFileButton
+      // 
+      this.BackupBrowseFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.BackupBrowseFileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupBrowseFileButton.Location = new System.Drawing.Point(392, 20);
+      this.BackupBrowseFileButton.Name = "BackupBrowseFileButton";
+      this.BackupBrowseFileButton.Size = new System.Drawing.Size(36, 24);
+      this.BackupBrowseFileButton.TabIndex = 2;
+      this.BackupBrowseFileButton.Text = "...";
+      this.BackupBrowseFileButton.UseVisualStyleBackColor = true;
+      this.BackupBrowseFileButton.Click += new System.EventHandler(this.BackupBrowseFileButton_Click);
+      // 
+      // BackupDestinationFile
+      // 
+      this.BackupDestinationFile.AcceptsReturn = true;
+      this.BackupDestinationFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.BackupDestinationFile.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+      this.BackupDestinationFile.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+      this.BackupDestinationFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupDestinationFile.Location = new System.Drawing.Point(84, 23);
+      this.BackupDestinationFile.Name = "BackupDestinationFile";
+      this.BackupDestinationFile.Size = new System.Drawing.Size(302, 20);
+      this.BackupDestinationFile.TabIndex = 1;
+      // 
+      // BackupDestinationLabel
+      // 
+      this.BackupDestinationLabel.AutoSize = true;
+      this.BackupDestinationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupDestinationLabel.Location = new System.Drawing.Point(6, 26);
+      this.BackupDestinationLabel.Name = "BackupDestinationLabel";
+      this.BackupDestinationLabel.Size = new System.Drawing.Size(53, 13);
+      this.BackupDestinationLabel.TabIndex = 0;
+      this.BackupDestinationLabel.Text = "File (bak):";
       // 
       // BackupSourceGroup
       // 
@@ -402,6 +477,7 @@
       this.BackupSourceChangeSqlServer.TabIndex = 4;
       this.BackupSourceChangeSqlServer.TabStop = true;
       this.BackupSourceChangeSqlServer.Text = "Change";
+      this.BackupSourceChangeSqlServer.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.BackupSourceChangeSqlServer_LinkClicked);
       // 
       // BackupSourceSqlServer
       // 
@@ -433,96 +509,16 @@
       this.BackupSourceSqlServerLabel.TabIndex = 0;
       this.BackupSourceSqlServerLabel.Text = "SQL Server:";
       // 
-      // BackupDestinationGroup
+      // BackupHeaderPanel
       // 
-      this.BackupDestinationGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.BackupDestinationGroup.Controls.Add(this.BackupBrowseFileButton);
-      this.BackupDestinationGroup.Controls.Add(this.DestinationSourceFile);
-      this.BackupDestinationGroup.Controls.Add(this.BackupDestinationLabel);
-      this.BackupDestinationGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.BackupDestinationGroup.Location = new System.Drawing.Point(12, 180);
-      this.BackupDestinationGroup.Name = "BackupDestinationGroup";
-      this.BackupDestinationGroup.Size = new System.Drawing.Size(435, 57);
-      this.BackupDestinationGroup.TabIndex = 10;
-      this.BackupDestinationGroup.TabStop = false;
-      this.BackupDestinationGroup.Text = "Destination (Backup)";
-      // 
-      // BackupBrowseFileButton
-      // 
-      this.BackupBrowseFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.BackupBrowseFileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.BackupBrowseFileButton.Location = new System.Drawing.Point(392, 20);
-      this.BackupBrowseFileButton.Name = "BackupBrowseFileButton";
-      this.BackupBrowseFileButton.Size = new System.Drawing.Size(36, 24);
-      this.BackupBrowseFileButton.TabIndex = 2;
-      this.BackupBrowseFileButton.Text = "...";
-      this.BackupBrowseFileButton.UseVisualStyleBackColor = true;
-      // 
-      // DestinationSourceFile
-      // 
-      this.DestinationSourceFile.AcceptsReturn = true;
-      this.DestinationSourceFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.DestinationSourceFile.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-      this.DestinationSourceFile.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-      this.DestinationSourceFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.DestinationSourceFile.Location = new System.Drawing.Point(84, 23);
-      this.DestinationSourceFile.Name = "DestinationSourceFile";
-      this.DestinationSourceFile.Size = new System.Drawing.Size(302, 20);
-      this.DestinationSourceFile.TabIndex = 1;
-      // 
-      // BackupDestinationLabel
-      // 
-      this.BackupDestinationLabel.AutoSize = true;
-      this.BackupDestinationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.BackupDestinationLabel.Location = new System.Drawing.Point(6, 26);
-      this.BackupDestinationLabel.Name = "BackupDestinationLabel";
-      this.BackupDestinationLabel.Size = new System.Drawing.Size(53, 13);
-      this.BackupDestinationLabel.TabIndex = 0;
-      this.BackupDestinationLabel.Text = "File (bak):";
-      // 
-      // BackupStatusLabel
-      // 
-      this.BackupStatusLabel.AutoSize = true;
-      this.BackupStatusLabel.Location = new System.Drawing.Point(25, 243);
-      this.BackupStatusLabel.Name = "BackupStatusLabel";
-      this.BackupStatusLabel.Size = new System.Drawing.Size(0, 13);
-      this.BackupStatusLabel.TabIndex = 15;
-      this.BackupStatusLabel.Visible = false;
-      // 
-      // BackupProgress
-      // 
-      this.BackupProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.BackupProgress.Location = new System.Drawing.Point(21, 259);
-      this.BackupProgress.Name = "BackupProgress";
-      this.BackupProgress.Size = new System.Drawing.Size(297, 10);
-      this.BackupProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-      this.BackupProgress.TabIndex = 14;
-      this.BackupProgress.Visible = false;
-      // 
-      // BackupDatabaseButton
-      // 
-      this.BackupDatabaseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.BackupDatabaseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-      this.BackupDatabaseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.BackupDatabaseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.BackupDatabaseButton.Location = new System.Drawing.Point(324, 243);
-      this.BackupDatabaseButton.Name = "BackupDatabaseButton";
-      this.BackupDatabaseButton.Size = new System.Drawing.Size(123, 31);
-      this.BackupDatabaseButton.TabIndex = 13;
-      this.BackupDatabaseButton.Text = "Backup";
-      this.BackupDatabaseButton.UseVisualStyleBackColor = true;
-      // 
-      // RestoreMessageLabel
-      // 
-      this.RestoreMessageLabel.AutoSize = true;
-      this.RestoreMessageLabel.Location = new System.Drawing.Point(102, 5);
-      this.RestoreMessageLabel.Name = "RestoreMessageLabel";
-      this.RestoreMessageLabel.Size = new System.Drawing.Size(344, 52);
-      this.RestoreMessageLabel.TabIndex = 1;
-      this.RestoreMessageLabel.Text = resources.GetString("RestoreMessageLabel.Text");
+      this.BackupHeaderPanel.BackColor = System.Drawing.Color.White;
+      this.BackupHeaderPanel.Controls.Add(this.BackupMessageLabel);
+      this.BackupHeaderPanel.Controls.Add(this.BackupHeaderLabel);
+      this.BackupHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
+      this.BackupHeaderPanel.Location = new System.Drawing.Point(0, 0);
+      this.BackupHeaderPanel.Name = "BackupHeaderPanel";
+      this.BackupHeaderPanel.Size = new System.Drawing.Size(458, 62);
+      this.BackupHeaderPanel.TabIndex = 1;
       // 
       // BackupMessageLabel
       // 
@@ -532,6 +528,16 @@
       this.BackupMessageLabel.Size = new System.Drawing.Size(344, 52);
       this.BackupMessageLabel.TabIndex = 2;
       this.BackupMessageLabel.Text = resources.GetString("BackupMessageLabel.Text");
+      // 
+      // BackupHeaderLabel
+      // 
+      this.BackupHeaderLabel.AutoSize = true;
+      this.BackupHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.BackupHeaderLabel.Location = new System.Drawing.Point(8, 18);
+      this.BackupHeaderLabel.Name = "BackupHeaderLabel";
+      this.BackupHeaderLabel.Size = new System.Drawing.Size(73, 24);
+      this.BackupHeaderLabel.TabIndex = 0;
+      this.BackupHeaderLabel.Text = "Backup";
       // 
       // MainForm
       // 
@@ -552,20 +558,20 @@
       this.MainMenu.PerformLayout();
       this.RestorePanel.ResumeLayout(false);
       this.RestorePanel.PerformLayout();
-      this.BackupPanel.ResumeLayout(false);
-      this.BackupPanel.PerformLayout();
-      this.RestoreHeaderPanel.ResumeLayout(false);
-      this.RestoreHeaderPanel.PerformLayout();
-      this.BackupHeaderPanel.ResumeLayout(false);
-      this.BackupHeaderPanel.PerformLayout();
       this.REstoreSourceGroup.ResumeLayout(false);
       this.REstoreSourceGroup.PerformLayout();
       this.RestoreDestinationGroup.ResumeLayout(false);
       this.RestoreDestinationGroup.PerformLayout();
-      this.BackupSourceGroup.ResumeLayout(false);
-      this.BackupSourceGroup.PerformLayout();
+      this.RestoreHeaderPanel.ResumeLayout(false);
+      this.RestoreHeaderPanel.PerformLayout();
+      this.BackupPanel.ResumeLayout(false);
+      this.BackupPanel.PerformLayout();
       this.BackupDestinationGroup.ResumeLayout(false);
       this.BackupDestinationGroup.PerformLayout();
+      this.BackupSourceGroup.ResumeLayout(false);
+      this.BackupSourceGroup.PerformLayout();
+      this.BackupHeaderPanel.ResumeLayout(false);
+      this.BackupHeaderPanel.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -574,12 +580,12 @@
     #endregion
 
     private System.Windows.Forms.MenuStrip MainMenu;
-    private System.Windows.Forms.ToolStripMenuItem commandsToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem backupMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem restoreMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem setFileAssociationToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem CommandMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem BackupMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem RestoreMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem SetFileAssociationMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem HelpMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
     private System.Windows.Forms.Panel RestorePanel;
     private System.Windows.Forms.Panel RestoreHeaderPanel;
     private System.Windows.Forms.Label RestoreHeaderLabel;
@@ -604,7 +610,7 @@
     private System.Windows.Forms.Button BackupDatabaseButton;
     private System.Windows.Forms.GroupBox BackupDestinationGroup;
     private System.Windows.Forms.Button BackupBrowseFileButton;
-    private System.Windows.Forms.TextBox DestinationSourceFile;
+    private System.Windows.Forms.TextBox BackupDestinationFile;
     private System.Windows.Forms.Label BackupDestinationLabel;
     private System.Windows.Forms.GroupBox BackupSourceGroup;
     private System.Windows.Forms.ComboBox BackupSourceDatabaseList;
