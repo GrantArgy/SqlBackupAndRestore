@@ -13,6 +13,8 @@ namespace SqlBackupAndRestore.Sql
   internal static class SqlRestore
   {
 
+    #region Static Methods
+
     public static string GetSuggestedRestoreDatabaseName(SqlConnectionInfo connectionInfo, string backupFile, List<string> databaseList)
     {
       string databaseName = string.Empty;
@@ -45,6 +47,8 @@ namespace SqlBackupAndRestore.Sql
 
       return databaseName;
     }
+
+    #endregion
 
     #region Helper Methods 
 

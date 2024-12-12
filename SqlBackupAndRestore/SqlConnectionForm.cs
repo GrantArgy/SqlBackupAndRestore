@@ -74,7 +74,7 @@ namespace SqlBackupAndRestore
     {
       if (string.IsNullOrWhiteSpace(ServerList.Text))
         MessageBox.Show("Please selct a SQL Server", Text, MessageBoxButtons.OK, MessageBoxIcon.Hand);
-      if (ConnectionInfo.IsLocalServer(ServerList.Text?.Trim()) == false)
+      if (SqlConnectionInfo.IsLocalServer(ServerList.Text?.Trim()) == false)
         MessageBox.Show("Sorry, you cannot restore to a remote SQL Server, only local. You have to run this tool on the same server where your target SQL Server is running.", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       else if (IsValidSqlConnection(out string errorMessage))
       {

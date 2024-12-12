@@ -40,7 +40,7 @@
       this.RestoreStatusLabel = new System.Windows.Forms.Label();
       this.RestoreProgress = new System.Windows.Forms.ProgressBar();
       this.RestoreDatabaseButton = new System.Windows.Forms.Button();
-      this.REstoreSourceGroup = new System.Windows.Forms.GroupBox();
+      this.RestoreSourceGroup = new System.Windows.Forms.GroupBox();
       this.RestoreBrowseFileButton = new System.Windows.Forms.Button();
       this.RestoreSourceFile = new System.Windows.Forms.TextBox();
       this.RestoreSourceLabel = new System.Windows.Forms.Label();
@@ -72,7 +72,7 @@
       this.BackupHeaderLabel = new System.Windows.Forms.Label();
       this.MainMenu.SuspendLayout();
       this.RestorePanel.SuspendLayout();
-      this.REstoreSourceGroup.SuspendLayout();
+      this.RestoreSourceGroup.SuspendLayout();
       this.RestoreDestinationGroup.SuspendLayout();
       this.RestoreHeaderPanel.SuspendLayout();
       this.BackupPanel.SuspendLayout();
@@ -105,7 +105,7 @@
       // BackupMenuItem
       // 
       this.BackupMenuItem.Name = "BackupMenuItem";
-      this.BackupMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.BackupMenuItem.Size = new System.Drawing.Size(175, 22);
       this.BackupMenuItem.Text = "Backup";
       this.BackupMenuItem.Click += new System.EventHandler(this.BackupMenuItem_Click);
       // 
@@ -114,14 +114,14 @@
       this.RestoreMenuItem.Checked = true;
       this.RestoreMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.RestoreMenuItem.Name = "RestoreMenuItem";
-      this.RestoreMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.RestoreMenuItem.Size = new System.Drawing.Size(175, 22);
       this.RestoreMenuItem.Text = "Restore";
       this.RestoreMenuItem.Click += new System.EventHandler(this.RestoreMenuItem_Click);
       // 
       // SetFileAssociationMenuItem
       // 
       this.SetFileAssociationMenuItem.Name = "SetFileAssociationMenuItem";
-      this.SetFileAssociationMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.SetFileAssociationMenuItem.Size = new System.Drawing.Size(175, 22);
       this.SetFileAssociationMenuItem.Text = "Set File Association";
       this.SetFileAssociationMenuItem.Click += new System.EventHandler(this.SetFileAssociationMenuItem_Click);
       // 
@@ -136,7 +136,7 @@
       // AboutMenuItem
       // 
       this.AboutMenuItem.Name = "AboutMenuItem";
-      this.AboutMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.AboutMenuItem.Size = new System.Drawing.Size(107, 22);
       this.AboutMenuItem.Text = "About";
       this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
       // 
@@ -145,7 +145,7 @@
       this.RestorePanel.Controls.Add(this.RestoreStatusLabel);
       this.RestorePanel.Controls.Add(this.RestoreProgress);
       this.RestorePanel.Controls.Add(this.RestoreDatabaseButton);
-      this.RestorePanel.Controls.Add(this.REstoreSourceGroup);
+      this.RestorePanel.Controls.Add(this.RestoreSourceGroup);
       this.RestorePanel.Controls.Add(this.RestoreDestinationGroup);
       this.RestorePanel.Controls.Add(this.RestoreHeaderPanel);
       this.RestorePanel.Location = new System.Drawing.Point(0, 27);
@@ -186,20 +186,20 @@
       this.RestoreDatabaseButton.Text = "Restore";
       this.RestoreDatabaseButton.UseVisualStyleBackColor = true;
       // 
-      // REstoreSourceGroup
+      // RestoreSourceGroup
       // 
-      this.REstoreSourceGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.RestoreSourceGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.REstoreSourceGroup.Controls.Add(this.RestoreBrowseFileButton);
-      this.REstoreSourceGroup.Controls.Add(this.RestoreSourceFile);
-      this.REstoreSourceGroup.Controls.Add(this.RestoreSourceLabel);
-      this.REstoreSourceGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.REstoreSourceGroup.Location = new System.Drawing.Point(12, 77);
-      this.REstoreSourceGroup.Name = "REstoreSourceGroup";
-      this.REstoreSourceGroup.Size = new System.Drawing.Size(435, 57);
-      this.REstoreSourceGroup.TabIndex = 9;
-      this.REstoreSourceGroup.TabStop = false;
-      this.REstoreSourceGroup.Text = "Source (Backup)";
+      this.RestoreSourceGroup.Controls.Add(this.RestoreBrowseFileButton);
+      this.RestoreSourceGroup.Controls.Add(this.RestoreSourceFile);
+      this.RestoreSourceGroup.Controls.Add(this.RestoreSourceLabel);
+      this.RestoreSourceGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.RestoreSourceGroup.Location = new System.Drawing.Point(12, 77);
+      this.RestoreSourceGroup.Name = "RestoreSourceGroup";
+      this.RestoreSourceGroup.Size = new System.Drawing.Size(435, 57);
+      this.RestoreSourceGroup.TabIndex = 9;
+      this.RestoreSourceGroup.TabStop = false;
+      this.RestoreSourceGroup.Text = "Source (Backup)";
       // 
       // RestoreBrowseFileButton
       // 
@@ -225,6 +225,7 @@
       this.RestoreSourceFile.Name = "RestoreSourceFile";
       this.RestoreSourceFile.Size = new System.Drawing.Size(302, 20);
       this.RestoreSourceFile.TabIndex = 1;
+      this.RestoreSourceFile.Validated += new System.EventHandler(this.RestoreSourceFile_Validated);
       // 
       // RestoreSourceLabel
       // 
@@ -265,6 +266,7 @@
       this.RestoreDestinationDatabaseList.Name = "RestoreDestinationDatabaseList";
       this.RestoreDestinationDatabaseList.Size = new System.Drawing.Size(344, 21);
       this.RestoreDestinationDatabaseList.TabIndex = 5;
+      this.RestoreDestinationDatabaseList.TextChanged += new System.EventHandler(this.RestoreDestinationDatabaseList_TextChanged);
       // 
       // RestoreDestinationChangeSqlServer
       // 
@@ -425,6 +427,7 @@
       this.BackupDestinationFile.Name = "BackupDestinationFile";
       this.BackupDestinationFile.Size = new System.Drawing.Size(302, 20);
       this.BackupDestinationFile.TabIndex = 1;
+      this.BackupDestinationFile.Validated += new System.EventHandler(this.BackupDestinationFile_Validated);
       // 
       // BackupDestinationLabel
       // 
@@ -465,6 +468,7 @@
       this.BackupSourceDatabaseList.Name = "BackupSourceDatabaseList";
       this.BackupSourceDatabaseList.Size = new System.Drawing.Size(344, 21);
       this.BackupSourceDatabaseList.TabIndex = 5;
+      this.BackupSourceDatabaseList.TextChanged += new System.EventHandler(this.BackupSourceDatabaseList_TextChanged);
       // 
       // BackupSourceChangeSqlServer
       // 
@@ -558,8 +562,8 @@
       this.MainMenu.PerformLayout();
       this.RestorePanel.ResumeLayout(false);
       this.RestorePanel.PerformLayout();
-      this.REstoreSourceGroup.ResumeLayout(false);
-      this.REstoreSourceGroup.PerformLayout();
+      this.RestoreSourceGroup.ResumeLayout(false);
+      this.RestoreSourceGroup.PerformLayout();
       this.RestoreDestinationGroup.ResumeLayout(false);
       this.RestoreDestinationGroup.PerformLayout();
       this.RestoreHeaderPanel.ResumeLayout(false);
@@ -593,7 +597,7 @@
     private System.Windows.Forms.Label RestoreStatusLabel;
     private System.Windows.Forms.ProgressBar RestoreProgress;
     private System.Windows.Forms.Button RestoreDatabaseButton;
-    private System.Windows.Forms.GroupBox REstoreSourceGroup;
+    private System.Windows.Forms.GroupBox RestoreSourceGroup;
     private System.Windows.Forms.Button RestoreBrowseFileButton;
     private System.Windows.Forms.TextBox RestoreSourceFile;
     private System.Windows.Forms.Label RestoreSourceLabel;

@@ -5,8 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SqlBackupAndRestore.Sql
 {
@@ -70,7 +68,7 @@ namespace SqlBackupAndRestore.Sql
       return lst;
     }
 
-    public bool IsLocalServer(string machine)
+    public static bool IsLocalServer(string machine)
     {
       try
       {
