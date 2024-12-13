@@ -91,7 +91,7 @@
     </Compile>
     <Compile Include="Sql\SqlConnectionInfo.cs" />
     <Compile Include="Sql\SqlRestore.cs" />
-    <Compile Include="Utilities\ApplicationDetails.cs" />
+    <Compile Include="Utilities\ApplicationHelper.cs" />
     <Compile Include="Utilities\ConsoleManager.cs" />
     <Compile Include="Utilities\FileAssociation.cs" />
     <EmbeddedResource Include="MainForm.resx">

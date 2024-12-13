@@ -13,9 +13,9 @@ namespace SqlBackupAndRestore
   internal sealed partial class MainForm : Form
   {
 
-    #region Properties
+    #region Fields
 
-    private SqlConnectionInfo ConnectionInfo { get; set; } = new SqlConnectionInfo();
+    private SqlConnectionInfo connectionInfo = new SqlConnectionInfo();
 
     #endregion
 
@@ -35,17 +35,16 @@ namespace SqlBackupAndRestore
       base.OnLoad(e);
       ClientSize = new Size(RestorePanel.Size.Width, RestorePanel.Size.Height);
       BackupPanel.Size = new Size(RestorePanel.Size.Width, RestorePanel.Size.Height);
-      AskToSetFileAssociationOnLoad();
-      LoadSettings();
-      InitialiseSqlServer();
-      RefreshSqlServerDetails();
-      RefreshBackupAndRestoreDatabaseButtons();
+      configureSetFileAssociationOnLoad();
+      loadSettings();
+      initialiseAndRefreshSqlServer();
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      SaveSettings();
+      saveSettings();
     }
 
     #endregion
@@ -54,29 +53,17 @@ namespace SqlBackupAndRestore
 
     private void RestoreMenuItem_Click(object sender, EventArgs e)
     {
-      SuspendLayout();
-      BackupPanel.Visible = false;
-      RestorePanel.Visible = true;
-      RestorePanel.Location = new Point(0, 27);
-      RestoreMenuItem.Checked = true;
-      BackupMenuItem.Checked = false;
-      ResumeLayout();
+      showBackupOrRestorePanel(true);
     }
 
     private void BackupMenuItem_Click(object sender, EventArgs e)
     {
-      SuspendLayout();
-      RestorePanel.Visible = false;
-      BackupPanel.Visible = true;
-      BackupPanel.Location = new Point(0, 27);
-      BackupMenuItem.Checked = true;
-      RestoreMenuItem.Checked = false;
-      ResumeLayout();
+      showBackupOrRestorePanel(false);
     }
 
     private void SetFileAssociationMenuItem_Click(object sender, EventArgs e)
     {
-      FileAssociation.RunAssociation();
+      setFileAssociation();
     }
 
     private void AboutMenuItem_Click(object sender, EventArgs e)
@@ -86,71 +73,71 @@ namespace SqlBackupAndRestore
 
     private void RestoreDestinationChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      ChangeSqlServer();
+      changeSqlServer();
     }
 
     private void BackupSourceChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      ChangeSqlServer();
+      changeSqlServer();
     }
 
     private void RestoreBrowseFileButton_Click(object sender, EventArgs e)
     {
-      RestoreSourceFile.Text = BrowseFile(RestoreSourceFile.Text, true);
-      RefreshBackupAndRestoreDatabaseButtons();
+      RestoreSourceFile.Text = browseFile(RestoreSourceFile.Text, true);
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     private void BackupBrowseFileButton_Click(object sender, EventArgs e)
     {
-      BackupDestinationFile.Text = BrowseFile(BackupDestinationFile.Text, false);
-      RefreshBackupAndRestoreDatabaseButtons();
+      BackupDestinationFile.Text = browseFile(BackupDestinationFile.Text, false);
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     private void RestoreDestinationDatabaseList_TextChanged(object sender, EventArgs e)
     {
-      RefreshBackupAndRestoreDatabaseButtons();
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     private void BackupSourceDatabaseList_TextChanged(object sender, EventArgs e)
     {
-      RefreshBackupAndRestoreDatabaseButtons();
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     private void RestoreSourceFile_Validated(object sender, EventArgs e)
     {
-      RefreshBackupAndRestoreDatabaseButtons();
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     private void BackupDestinationFile_Validated(object sender, EventArgs e)
     {
-      RefreshBackupAndRestoreDatabaseButtons();
+      refreshBackupAndRestoreDatabaseButtons();
     }
 
     #endregion
 
     #region Helper Methods
 
-    private void LoadSettings()
+    private void loadSettings()
     {
-      ConnectionInfo.Server = Settings.Default.SqlServer;
-      ConnectionInfo.IntegratedSecurity = Settings.Default.SqlIntegratedSecurity;
-      ConnectionInfo.UserName = Settings.Default.SqlUserName;
-      ConnectionInfo.Password = Settings.Default.SqlPassword;
+      connectionInfo.Server = Settings.Default.SqlServer;
+      connectionInfo.IntegratedSecurity = Settings.Default.SqlIntegratedSecurity;
+      connectionInfo.UserName = Settings.Default.SqlUserName;
+      connectionInfo.Password = Settings.Default.SqlPassword;
 
       RestoreSourceFile.Text = Settings.Default.RestoreSourceFile;
       RestoreDestinationDatabaseList.Text = Settings.Default.RestoreDestinationDatabaseName;
       BackupDestinationFile.Text = Settings.Default.BackupDestinationFile;
-      BackupSourceDatabaseList.Text= Settings.Default.BackupSourceDatabaseName;
+      BackupSourceDatabaseList.Text = Settings.Default.BackupSourceDatabaseName;
 
       SetFileAssociationMenuItem.Enabled = FileAssociation.IsAssociated() == false;
     }
 
-    private void SaveSettings()
+    private void saveSettings()
     {
-      Settings.Default.SqlServer = ConnectionInfo.Server;
-      Settings.Default.SqlIntegratedSecurity = ConnectionInfo.IntegratedSecurity;
-      Settings.Default.SqlUserName = ConnectionInfo.UserName;
-      Settings.Default.SqlPassword = ConnectionInfo.Password;
+      Settings.Default.SqlServer = connectionInfo.Server;
+      Settings.Default.SqlIntegratedSecurity = connectionInfo.IntegratedSecurity;
+      Settings.Default.SqlUserName = connectionInfo.UserName;
+      Settings.Default.SqlPassword = connectionInfo.Password;
 
       Settings.Default.RestoreSourceFile = RestoreSourceFile.Text;
       Settings.Default.RestoreDestinationDatabaseName = RestoreDestinationDatabaseList.Text;
@@ -159,26 +146,26 @@ namespace SqlBackupAndRestore
       Settings.Default.Save();
     }
 
-    private void ChangeSqlServer()
+    private void changeSqlServer()
     {
-      using (var dlg = new SqlConnectionForm(ConnectionInfo))
+      using (var dlg = new SqlConnectionForm(connectionInfo))
       {
         if (dlg.ShowDialog(this) == DialogResult.OK)
         {
-          RefreshSqlServerDetails();
-          SuggestRestoreDestinationDatabase();
-          RefreshBackupAndRestoreDatabaseButtons();
-          SaveSettings();
+          refreshSqlServerDetails();
+          suggestRestoreDestinationDatabase();
+          refreshBackupAndRestoreDatabaseButtons();
+          saveSettings();
         }
       }
     }
 
-    private void SuggestBackupDesinationFile()
+    private void suggestBackupDesinationFile()
     {
 
     }
 
-    private void SuggestRestoreDestinationDatabase()
+    private void suggestRestoreDestinationDatabase()
     {
       string sourceFile = string.Empty;
       List<string> databaseList = new List<string>();
@@ -189,7 +176,7 @@ namespace SqlBackupAndRestore
         databaseList = RestoreDestinationDatabaseList.Items.Cast<string>().ToList();
 
         if (string.IsNullOrWhiteSpace(sourceFile) == false && File.Exists(sourceFile))
-          RestoreDestinationDatabaseList.Text = SqlRestore.GetSuggestedRestoreDatabaseName(ConnectionInfo, sourceFile, databaseList);
+          RestoreDestinationDatabaseList.Text = SqlRestore.GetSuggestedRestoreDatabaseName(connectionInfo, sourceFile, databaseList);
       }
       catch
       {
@@ -197,9 +184,9 @@ namespace SqlBackupAndRestore
       }
     }
 
-    private void InitialiseSqlServer()
+    private void initialiseAndRefreshSqlServer()
     {
-      if (string.IsNullOrEmpty(ConnectionInfo.Server))
+      if (string.IsNullOrEmpty(connectionInfo.Server))
       {
         string error = string.Empty;
         var server = new SqlConnectionInfo { IntegratedSecurity = true };
@@ -212,7 +199,7 @@ namespace SqlBackupAndRestore
             server.Server = @".\SQLEXPRESS";
             if (server.CanOpenConnection(out error, 1) == false)
             {
-              throw new ApplicationException("no sql server found");
+              throw new ApplicationException("No sql server found");
             }
           }
         }
@@ -226,41 +213,42 @@ namespace SqlBackupAndRestore
         }
         if (string.IsNullOrEmpty(server.Server) == false)
         {
-          ConnectionInfo = server;
-          SaveSettings();
+          connectionInfo = server;
+          saveSettings();
         }
       }
+      refreshSqlServerDetails();
     }
 
-    private void RefreshSqlServerDetails()
+    private void refreshSqlServerDetails()
     {
-      RestoreDestinationSqlServer.Text = ConnectionInfo.Server;
-      BackupSourceSqlServer.Text = RestoreDestinationSqlServer.Text;
+      RestoreDestinationSqlServer.Text = connectionInfo.Server;
+      BackupSourceSqlServer.Text = connectionInfo.Server;
 
-      RestoreDestinationChangeSqlServer.Text = string.IsNullOrEmpty(ConnectionInfo.Server) ? "Connect" : "Change";
+      RestoreDestinationChangeSqlServer.Text = string.IsNullOrEmpty(connectionInfo.Server) ? "Connect" : "Change";
       BackupSourceChangeSqlServer.Text = RestoreDestinationChangeSqlServer.Text;
 
-      List<string> databases = string.IsNullOrEmpty(ConnectionInfo.Server) ? new List<string>() : ConnectionInfo.GetDatabases();
+      var databases = string.IsNullOrEmpty(connectionInfo.Server) ? new object[0] : connectionInfo.GetDatabases().ToArray<object>();
       RestoreDestinationDatabaseList.Items.Clear();
-      RestoreDestinationDatabaseList.Items.AddRange(databases.Where(obj => ConnectionInfo.IsSystemDatabase(obj) == false).ToArray<object>());
+      RestoreDestinationDatabaseList.Items.AddRange(databases);
       BackupSourceDatabaseList.Items.Clear();
-      BackupSourceDatabaseList.Items.AddRange(databases.Where(obj => ConnectionInfo.IsSystemDatabase(obj) == false).ToArray<object>());
+      BackupSourceDatabaseList.Items.AddRange(databases);
     }
 
-    private void RefreshBackupAndRestoreDatabaseButtons()
+    private void refreshBackupAndRestoreDatabaseButtons()
     {
       RestoreDatabaseButton.Enabled = RestoreSourceFile.Text.Trim().Length > 0 &&
                                       File.Exists(RestoreSourceFile.Text.Trim()) &&
                                       RestoreDestinationDatabaseList.Text.Trim().Length > 0 &&
-                                      ConnectionInfo.Server.Trim().Length > 0;
-      
+                                      connectionInfo.Server.Trim().Length > 0; //server should already be validated
+
       BackupDatabaseButton.Enabled = BackupDestinationFile.Text.Trim().Length > 0 &&
                                      Directory.Exists(Path.GetFullPath(BackupDestinationFile.Text.Trim())) &&
                                      BackupSourceDatabaseList.Text.Trim().Length > 0 &&
-                                     ConnectionInfo.Server.Trim().Length > 0;
+                                     connectionInfo.Server.Trim().Length > 0; //server should already be validated
     }
 
-    private string BrowseFile(string fileName, bool isSource)
+    private string browseFile(string fileName, bool isSource)
     {
       using (var dlg = new OpenFileDialog())
       {
@@ -288,36 +276,69 @@ namespace SqlBackupAndRestore
       }
     }
 
-    private void AskToSetFileAssociationOnLoad()
+    private void configureSetFileAssociationOnLoad()
     {
-      if (Settings.Default.AssociateBackupFiles)
+      try
       {
-        try
+        if (Settings.Default.AssociateBackupFiles && FileAssociation.IsAssociated())
         {
-          if (FileAssociation.IsAssociated() == false)
+          if (MessageBox.Show(this, $"{Application.ProductName} is not associated with *.bak files. Would you like to create this association now?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
           {
-            if (MessageBox.Show(this, $"{Application.ProductName} is not associated with *.bak files. Would you like to create this association now?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-              if (ApplicationDetails.IsAdministrator())
-                FileAssociation.SetAssociation();
-              else
-                FileAssociation.RunAssociation();
-            }
-            else
-            {
-              Settings.Default.AssociateBackupFiles = false;
-              Settings.Default.Save();
-            }
+            setFileAssociation();
+          }
+          else
+          {
+            Settings.Default.AssociateBackupFiles = false;
+            Settings.Default.Save();
           }
         }
-        catch (Exception ex)
-        {
-          MessageBox.Show($"{ex.Message} {ex.InnerException?.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"{ex.Message} {ex.InnerException?.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
 
-        }
       }
     }
 
+    private void setFileAssociation()
+    {
+      try
+      {
+        if (FileAssociation.IsAssociated() == false)
+        {
+          if (ApplicationHelper.IsAdministrator())
+            FileAssociation.SetAssociation();
+          else
+            FileAssociation.RunAssociation();
+        }
+
+        SetFileAssociationMenuItem.Enabled = false;
+
+        if (Settings.Default.AssociateBackupFiles)
+        {
+          Settings.Default.AssociateBackupFiles = false;
+          Settings.Default.Save();
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"{ex.Message} {ex.InnerException?.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+      }
+    }
+
+    private void showBackupOrRestorePanel(bool showRestore)
+    {
+      SuspendLayout();
+      RestorePanel.Visible = showRestore;
+      RestoreMenuItem.Checked = showRestore;
+      BackupPanel.Visible = showRestore == false;
+      BackupMenuItem.Checked = showRestore == false;
+      if (showRestore)
+        RestorePanel.Location = new Point(0, 27);
+      else
+        BackupPanel.Location = new Point(0, 27);
+      ResumeLayout();
+    }
 
     #endregion
 

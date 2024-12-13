@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SqlBackupAndRestore.Utilities
 {
-  internal static class ApplicationDetails
+  internal static class ApplicationHelper
   {
 
     //private static Assembly ApplicationAssembly = Assembly.GetExecutingAssembly();

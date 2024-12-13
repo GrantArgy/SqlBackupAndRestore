@@ -126,7 +126,10 @@ namespace SqlBackupAndRestore.Sql
             using (SqlDataReader dr = cmd.ExecuteReader())
             {
               while (dr.Read())
-                lst.Add(dr.GetString(0));
+              {
+                if (IsSystemDatabase(dr.GetString(0)) == false)
+                  lst.Add(dr.GetString(0));
+              }
             }
           }
         }

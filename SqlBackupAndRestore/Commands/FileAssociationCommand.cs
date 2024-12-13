@@ -12,7 +12,7 @@ namespace SqlBackupAndRestore.Commands
 
     void ICommand.Execute()
     {
-      if (ApplicationDetails.IsAdministrator())
+      if (ApplicationHelper.IsAdministrator())
       {
         FileAssociation.SetAssociation();
       }
