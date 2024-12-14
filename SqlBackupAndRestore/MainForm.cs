@@ -33,8 +33,9 @@ namespace SqlBackupAndRestore
     protected override void OnLoad(EventArgs e)
     {
       base.OnLoad(e);
-      ClientSize = new Size(RestorePanel.Size.Width, RestorePanel.Size.Height);
+      ClientSize = new Size(RestorePanel.Size.Width, RestorePanel.Size.Height + RestorePanel.Location.Y);
       BackupPanel.Size = new Size(RestorePanel.Size.Width, RestorePanel.Size.Height);
+      showBackupOrRestorePanel(true);
       configureSetFileAssociationOnLoad();
       loadSettings();
       initialiseAndRefreshSqlServer();
@@ -280,7 +281,7 @@ namespace SqlBackupAndRestore
     {
       try
       {
-        if (Settings.Default.AssociateBackupFiles && FileAssociation.IsAssociated())
+        if (Settings.Default.AssociateBackupFiles && FileAssociation.IsAssociated() == false)
         {
           if (MessageBox.Show(this, $"{Application.ProductName} is not associated with *.bak files. Would you like to create this association now?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
           {
