@@ -3,9 +3,12 @@ using SqlBackupAndRestore.Sql;
 using SqlBackupAndRestore.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace SqlBackupAndRestore
@@ -310,7 +313,7 @@ namespace SqlBackupAndRestore
           if (ApplicationHelper.IsAdministrator())
             FileAssociation.SetAssociation();
           else
-            FileAssociation.RunAssociation();
+            runAssociation();
         }
 
         SetFileAssociationMenuItem.Enabled = false;
@@ -339,6 +342,32 @@ namespace SqlBackupAndRestore
       else
         BackupPanel.Location = new Point(0, 27);
       ResumeLayout();
+    }
+
+    private void runAssociation()
+    {
+      try
+      {
+        Uri uri = new Uri(ApplicationHelper.ApplicationAssembly.GetName().CodeBase);
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+          UseShellExecute = true,
+          WorkingDirectory = Environment.CurrentDirectory,
+          FileName = uri.LocalPath,
+          Arguments = "qfa"
+        };
+
+        if (Environment.OSVersion.Version.Major >= 6)
+        {
+          startInfo.Verb = "runas";
+        }
+
+        Process.Start(startInfo).WaitForExit();
+      }
+      catch (Win32Exception exception)
+      {
+        MessageBox.Show(exception.Message);
+      }
     }
 
     #endregion

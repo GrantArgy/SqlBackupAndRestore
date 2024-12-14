@@ -42,7 +42,7 @@ namespace SqlBackupAndRestore.Sql
       }
       catch
       {
-        databaseName = GetSuggestedRestoreDatabaseNameByBackupFile(databaseList, backupFile);
+        databaseName = getSuggestedRestoreDatabaseNameByBackupFile(databaseList, backupFile);
       }
 
       return databaseName;
@@ -52,7 +52,7 @@ namespace SqlBackupAndRestore.Sql
 
     #region Helper Methods 
 
-    private static string GetSuggestedRestoreDatabaseNameByBackupFile(List<string> databaseList, string backupFile)
+    private static string getSuggestedRestoreDatabaseNameByBackupFile(List<string> databaseList, string backupFile)
     {
       string databaseName = string.Empty;
 

@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using SqlBackupAndRestore.Properties;
 using SqlBackupAndRestore.Utilities;
 using System;
 
@@ -12,14 +13,12 @@ namespace SqlBackupAndRestore.Commands
 
     void ICommand.Execute()
     {
-      if (ApplicationHelper.IsAdministrator())
-      {
+      if (FileAssociation.IsAssociated())
+        Console.WriteLine(".bak files are already associated.");
+      else if (ApplicationHelper.IsAdministrator())
         FileAssociation.SetAssociation();
-      }
-      else 
-      {
+      else
         Console.WriteLine("Console must be running as administrator to perform this command!");
-      }
     }
 
     #endregion

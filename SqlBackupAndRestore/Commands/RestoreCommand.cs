@@ -20,7 +20,7 @@ namespace SqlBackupAndRestore.Commands
     public string SqlServer { get; set; }
 
     [Option('u', "userName", HelpText = "SQL Server username")]
-    public string Username { get; set; }
+    public string UserName { get; set; }
 
     [Option('p', "password", HelpText = "SQL Server password")]
     public string Password { get; set; }
@@ -38,8 +38,8 @@ namespace SqlBackupAndRestore.Commands
       var connectionInfo = new SqlConnectionInfo()
       {
         Server = SqlServer,
-        IntegratedSecurity = String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(Password),
-        UserName = Username,
+        IntegratedSecurity = String.IsNullOrEmpty(UserName) || String.IsNullOrEmpty(Password),
+        UserName = UserName,
         Password = Password
       };
       string errorMessage;
@@ -55,6 +55,10 @@ namespace SqlBackupAndRestore.Commands
       else if (File.Exists(BackupFile) == false)
       {
         Console.WriteLine("File does not exist");
+      }
+      else
+      {
+        //Restore
       }
 
     }

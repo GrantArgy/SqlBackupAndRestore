@@ -8,7 +8,7 @@ namespace SqlBackupAndRestore.Utilities
   internal static class ApplicationHelper
   {
 
-    //private static Assembly ApplicationAssembly = Assembly.GetExecutingAssembly();
+    public static Assembly ApplicationAssembly = Assembly.GetExecutingAssembly();
 
     //private static FileVersionInfo FileDetails = FileVersionInfo.GetVersionInfo(ApplicationExecutable);
 
@@ -21,7 +21,7 @@ namespace SqlBackupAndRestore.Utilities
 
     //public static string ProductName => Application.ProductName;
 
-    //public static string Name => ApplicationAssembly.GetName().Name;
+    public static string Name => ApplicationAssembly.GetName().Name;
 
     //public static string FullName => ApplicationAssembly.GetName().FullName;
 

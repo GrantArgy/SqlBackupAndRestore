@@ -12,9 +12,8 @@ namespace SqlBackupAndRestore.Utilities
 
     #region Private Variables
 
-    private static Assembly ApplicationAssembly = Assembly.GetExecutingAssembly();
-    private static string AssociationKey = $"{ApplicationAssembly.GetName().Name}.RestoreBackupFile";
-    private static string ExecutableFile = ApplicationAssembly.Location;
+    private static string AssociationKey = $"{ApplicationHelper.Name}.RestoreBackupFile";
+    private static string ExecutableFile = ApplicationHelper.ApplicationAssembly.Location;
 
     #endregion
 
@@ -39,7 +38,7 @@ namespace SqlBackupAndRestore.Utilities
       if (key == null)
         return false;
 
-      string str = $"{ExecutableFile} \"%1\"".ToLower();
+      string str = $"\"{ExecutableFile}\" ui \"%1\"".ToLower();
       if (key.GetValue("", "").ToString().ToLower() != str)
       {
         key.Close();
@@ -72,38 +71,12 @@ namespace SqlBackupAndRestore.Utilities
             key = key2.CreateSubKey(@"shell\open\command");
             if (key != null)
             {
-              key.SetValue(string.Empty, $"{ExecutableFile} \"%1\"", RegistryValueKind.String);
+              key.SetValue(string.Empty, $"\"{ExecutableFile}\" ui \"%1\"", RegistryValueKind.String);
               key.Close();
               key2.Close();
             }
           }
         }
-      }
-    }
-
-    internal static void RunAssociation()
-    {
-      try
-      {
-        Uri uri = new Uri(ApplicationAssembly.GetName().CodeBase);
-        ProcessStartInfo startInfo = new ProcessStartInfo
-        {
-          UseShellExecute = true,
-          WorkingDirectory = Environment.CurrentDirectory,
-          FileName = uri.LocalPath,
-          Arguments = "fileassoc -q"
-        };
-
-        if (Environment.OSVersion.Version.Major >= 6)
-        {
-          startInfo.Verb = "runas";
-        }
-
-        Process.Start(startInfo).WaitForExit();
-      }
-      catch (Win32Exception exception)
-      {
-        MessageBox.Show(exception.Message);
       }
     }
 

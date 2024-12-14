@@ -17,6 +17,15 @@ namespace SqlBackupAndRestore
     [STAThread]
     static void Main(string[] args)
     {
+      //Quietly set file association call from UI
+      if (args.Length == 1 && args[0] == "qfa")
+      {
+        if (ApplicationHelper.IsAdministrator())
+          FileAssociation.SetAssociation();
+        Environment.Exit(0);
+      }
+
+      //Handles double click of backup file as set by file association
       if (args.Length == 2 && args[0] == "ui" && File.Exists(args[1]))
       {
         Settings.Default.RestoreSourceFile = args[1];
@@ -56,7 +65,7 @@ namespace SqlBackupAndRestore
 
     private static Type[] LoadVerbs()
     {
-      return Assembly.GetExecutingAssembly().GetTypes()
+      return ApplicationHelper.ApplicationAssembly.GetTypes()
         .Where(t => t.GetCustomAttribute<VerbAttribute>() != null && t.GetInterface(nameof(ICommand)) != null)
         .ToArray();
     }
