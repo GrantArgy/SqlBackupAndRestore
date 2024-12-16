@@ -54,12 +54,17 @@
   <PropertyGroup>
     <ApplicationIcon>SqlRestore.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +94,8 @@
     <Compile Include="SqlConnectionForm.Designer.cs">
       <DependentUpon>SqlConnectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sql\DatabaseFileInfo.cs" />
+    <Compile Include="Sql\SqlBackup.cs" />
     <Compile Include="Sql\SqlConnectionInfo.cs" />
     <Compile Include="Sql\SqlRestore.cs" />
     <Compile Include="Utilities\ApplicationHelper.cs" />
@@ -105,6 +112,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SqlConnectionForm.resx">
       <DependentUpon>SqlConnectionForm.cs</DependentUpon>
@@ -124,6 +132,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Cancel.png" />
+    <None Include="Resources\Start.png" />
     <Content Include="SqlRestore.ico" />
   </ItemGroup>
   <ItemGroup>

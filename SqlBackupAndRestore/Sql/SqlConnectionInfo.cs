@@ -68,24 +68,24 @@ namespace SqlBackupAndRestore.Sql
       return lst;
     }
 
-    public static bool IsLocalServer(string machine)
+    public static bool IsLocalServer(string sqlServerName)
     {
       try
       {
-        if (string.IsNullOrWhiteSpace(machine)) return false;
+        if (string.IsNullOrWhiteSpace(sqlServerName)) return false;
 
-        int length = machine.LastIndexOf('\\');
+        int length = sqlServerName.LastIndexOf('\\');
         if (length > 0)
         {
-          machine = machine.Substring(0, length);
+          sqlServerName = sqlServerName.Substring(0, length);
         }
-        if (machine.Trim() == ".")
+        if (sqlServerName.Trim() == ".")
         {
           return true;
         }
-        IPHostEntry hostEntry = Dns.GetHostEntry(machine);
-        IPHostEntry entry2 = Dns.GetHostEntry(Environment.MachineName);
-        return (hostEntry.HostName == entry2.HostName);
+        IPHostEntry sqlServerHostEntry = Dns.GetHostEntry(sqlServerName);
+        IPHostEntry machineHostEntry = Dns.GetHostEntry(Environment.MachineName);
+        return (sqlServerHostEntry.HostName == machineHostEntry.HostName);
       }
       catch (Exception)
       {
@@ -136,6 +136,11 @@ namespace SqlBackupAndRestore.Sql
       }
       catch { }
       return lst;
+    }
+
+    public bool DatabaseExists(string databaseName)
+    {
+      return GetDatabases().Contains(databaseName, StringComparer.CurrentCultureIgnoreCase);
     }
 
     #endregion
