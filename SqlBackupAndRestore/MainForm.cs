@@ -9,6 +9,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SqlBackupAndRestore
@@ -75,12 +77,7 @@ namespace SqlBackupAndRestore
       MessageBox.Show(this, "About message", Application.ProductName);
     }
 
-    private void RestoreDestinationChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-      changeSqlServer();
-    }
-
-    private void BackupSourceChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    private void ChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       changeSqlServer();
     }
@@ -97,24 +94,23 @@ namespace SqlBackupAndRestore
       refreshBackupAndRestoreDatabaseButtons();
     }
 
-    private void RestoreDestinationDatabaseList_TextChanged(object sender, EventArgs e)
+    private void DatabaseOrFile_Validated(object sender, EventArgs e)
     {
+      if (sender is ComboBox cb && cb.Name == BackupSourceDatabaseList.Name)
+        suggestBackupDesinationFile();
+      else if (sender is TextBox tb && tb.Name == RestoreSourceFile.Name)
+        suggestRestoreDestinationDatabase();
       refreshBackupAndRestoreDatabaseButtons();
     }
 
-    private void BackupSourceDatabaseList_TextChanged(object sender, EventArgs e)
+    private async void RestoreDatabaseButton_Click(object sender, EventArgs e)
     {
-      refreshBackupAndRestoreDatabaseButtons();
+      await restoreDatabaseButton();
     }
 
-    private void RestoreSourceFile_Validated(object sender, EventArgs e)
+    private async void BackupDatabaseButton_Click(object sender, EventArgs e)
     {
-      refreshBackupAndRestoreDatabaseButtons();
-    }
-
-    private void BackupDestinationFile_Validated(object sender, EventArgs e)
-    {
-      refreshBackupAndRestoreDatabaseButtons();
+      await backupDatabaseButton();
     }
 
     #endregion
@@ -166,7 +162,17 @@ namespace SqlBackupAndRestore
 
     private void suggestBackupDesinationFile()
     {
+      try
+      {
+        var file = BackupDestinationFile.Text.Trim();
+        var database = BackupSourceDatabaseList.Text.Trim();
 
+        BackupDestinationFile.Text = SqlBackup.GetSuggestedBackupFileName(connectionInfo, file, database);
+      }
+      catch
+      {
+        BackupDestinationFile.Text = string.Empty;
+      }
     }
 
     private void suggestRestoreDestinationDatabase()
@@ -247,7 +253,7 @@ namespace SqlBackupAndRestore
                                       connectionInfo.Server.Trim().Length > 0; //server should already be validated
 
       BackupDatabaseButton.Enabled = BackupDestinationFile.Text.Trim().Length > 0 &&
-                                     Directory.Exists(Path.GetFullPath(BackupDestinationFile.Text.Trim())) &&
+                                     Directory.Exists(Path.GetDirectoryName(BackupDestinationFile.Text.Trim())) &&
                                      BackupSourceDatabaseList.Text.Trim().Length > 0 &&
                                      connectionInfo.Server.Trim().Length > 0; //server should already be validated
     }
@@ -274,6 +280,8 @@ namespace SqlBackupAndRestore
 
         if (dlg.ShowDialog(this) == DialogResult.OK)
         {
+          if (isSource)
+            suggestRestoreDestinationDatabase();
           return dlg.FileName;
         }
         return fileName;
@@ -370,7 +378,134 @@ namespace SqlBackupAndRestore
       }
     }
 
-    #endregion
+    private bool backupNotRunning = true;
+    private CancellationTokenSource backupCancellationTokenSource = null;
 
+    private async Task backupDatabaseButton()
+    {
+      try
+      {
+        if (backupNotRunning)
+        {
+          BackupStatusLabel.Text = "";
+          BackupProgress.Value = 0;
+          BackupStatusLabel.Visible = true;
+          BackupProgress.Visible = true;
+          BackupDatabaseButton.Text = "Cancel";
+          BackupDatabaseButton.Image = Resources.Cancel;
+          backupCancellationTokenSource = new CancellationTokenSource();
+          await SqlBackup.BackupAsync(connectionInfo, BackupSourceDatabaseList.Text.Trim(), BackupDestinationFile.Text, setBackupStatus, setBackupProgress, backupCancellationTokenSource.Token);
+        }
+        else
+        {
+          setRestoreStatus("Waiting to cancel...");
+          restoreCancellationTokenSource.Cancel();
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"{ex.Message} {ex.InnerException?.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+      }
+      finally
+      {
+        BackupDatabaseButton.Text = "Backup";
+        BackupDatabaseButton.Image = Resources.Start;
+        BackupStatusLabel.Visible = false;
+        BackupProgress.Visible = false;
+      }
+    }
+
+    private void setBackupStatus(string status)
+    {
+      if (BackupStatusLabel.InvokeRequired)
+      {
+        Action safewrite = delegate { setBackupStatus(status); };
+        BackupStatusLabel.Invoke(safewrite);
+      }
+      else
+      {
+        BackupStatusLabel.Text = status;
+      }
+    }
+
+    private void setBackupProgress(int percent)
+    {
+      if (BackupProgress.InvokeRequired)
+      {
+        Action safewrite = delegate { setBackupProgress(percent); };
+        BackupProgress.Invoke(safewrite);
+      }
+      else
+      {
+        BackupProgress.Value = percent > 100 ? 100 : percent;
+      }
+
+    }
+
+    private bool restoreNotRunning = true;
+    private CancellationTokenSource restoreCancellationTokenSource = null;
+
+    private async Task restoreDatabaseButton()
+    {
+      try
+      {
+        if (restoreNotRunning)
+        {
+          RestoreStatusLabel.Text = "";
+          RestoreProgress.Value = 0;
+          RestoreStatusLabel.Visible = true;
+          RestoreProgress.Visible = true;
+          RestoreDatabaseButton.Text = "Cancel";
+          RestoreDatabaseButton.Image = Resources.Cancel;
+          restoreCancellationTokenSource = new CancellationTokenSource();
+          await SqlRestore.RestoreAsync(connectionInfo, RestoreDestinationDatabaseList.Text.Trim(), RestoreSourceFile.Text, setRestoreStatus, setRestoreProgress, restoreCancellationTokenSource.Token);
+        }
+        else
+        {
+          setRestoreStatus("Waiting to cancel...");
+          restoreCancellationTokenSource.Cancel();
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"{ex.Message} {ex.InnerException?.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+      }
+      finally
+      {
+        RestoreDatabaseButton.Text = "Restore";
+        RestoreDatabaseButton.Image = Resources.Start;
+        RestoreStatusLabel.Visible = false;
+        RestoreProgress.Visible = false;
+      }
+    }
+
+    private void setRestoreStatus(string status)
+    {
+      if (RestoreStatusLabel.InvokeRequired)
+      {
+        Action safewrite = delegate { setRestoreStatus(status); };
+        RestoreStatusLabel.Invoke(safewrite);
+      }
+      else
+      {
+        RestoreStatusLabel.Text = status;
+      }
+    }
+
+    private void setRestoreProgress(int percent)
+    {
+      if (RestoreProgress.InvokeRequired)
+      {
+        Action safewrite = delegate { setRestoreProgress(percent); };
+        RestoreProgress.Invoke(safewrite);
+      }
+      else
+      {
+        RestoreProgress.Value = percent > 100 ? 100 : percent;
+      }
+
+    }
+
+    #endregion
   }
 }
