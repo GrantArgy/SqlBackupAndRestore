@@ -66,7 +66,7 @@ namespace SqlBackupAndRestore.Sql
 
     private static async Task backupDatabaseAsync(SqlConnectionInfo connectionInfo, string databaseName, string backupFile, string restoreQuery, List<SqlParameter> parameters, Action<int> updateProgress)
     {
-      using (var cn = connectionInfo.GetConnection(10000))
+      using (var cn = connectionInfo.GetConnection(null))
       {
         cn.FireInfoMessageEventOnUserErrors = true;
         cn.InfoMessage += delegate (object sender, SqlInfoMessageEventArgs e)
@@ -78,6 +78,7 @@ namespace SqlBackupAndRestore.Sql
 
         using (var cmd = cn.CreateCommand())
         {
+          cmd.CommandTimeout = 600;
           cmd.CommandText = restoreQuery;
           cmd.CommandType = CommandType.Text;
           cmd.Parameters.AddRange(parameters.ToArray());

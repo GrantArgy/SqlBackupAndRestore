@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Threading;
+using SqlBackupAndRestore.Properties;
 
 namespace SqlBackupAndRestore.Sql
 {
@@ -44,6 +45,16 @@ namespace SqlBackupAndRestore.Sql
         }
         setStatus(string.Empty);
       }
+    }
+
+    public static string GetSuggestedRestoreDatabaseName()
+    {
+      SqlConnectionInfo connectionInfo = new SqlConnectionInfo();
+      connectionInfo.Server = Settings.Default.SqlServer;
+      connectionInfo.IntegratedSecurity = Settings.Default.SqlIntegratedSecurity;
+      connectionInfo.UserName = Settings.Default.SqlUserName;
+      connectionInfo.Password = Settings.Default.SqlPassword;
+      return GetSuggestedRestoreDatabaseName(connectionInfo, Settings.Default.RestoreSourceFile, connectionInfo.GetDatabases());
     }
 
     public static string GetSuggestedRestoreDatabaseName(SqlConnectionInfo connectionInfo, string backupFile, List<string> databaseList)
@@ -85,7 +96,7 @@ namespace SqlBackupAndRestore.Sql
 
     private static async Task restoreDatabaseAsync(SqlConnectionInfo connectionInfo, string databaseName, string backupFile, string restoreQuery, List<SqlParameter> parameters, Action<int> updateProgress)
     {
-      using (var cn = connectionInfo.GetConnection(10000))
+      using (var cn = connectionInfo.GetConnection(null))
       {
         cn.FireInfoMessageEventOnUserErrors = true;
         cn.InfoMessage += delegate (object sender, SqlInfoMessageEventArgs e)
@@ -97,6 +108,7 @@ namespace SqlBackupAndRestore.Sql
 
         using (var cmd = cn.CreateCommand())
         {
+          cmd.CommandTimeout = 0;
           cmd.CommandText = restoreQuery;
           cmd.CommandType = CommandType.Text;
           cmd.Parameters.AddRange(parameters.ToArray());
@@ -107,7 +119,7 @@ namespace SqlBackupAndRestore.Sql
 
     private static async Task setDatabaseToOfflineModeAsync(SqlConnectionInfo connectionInfo, string databaseName)
     {
-      using (var cn = connectionInfo.GetConnection(10000))
+      using (var cn = connectionInfo.GetConnection(null))
       {
         using (var cmd = cn.CreateCommand())
         {
@@ -162,7 +174,7 @@ namespace SqlBackupAndRestore.Sql
     {
       List<DatabaseFileInfo> lst = new List<DatabaseFileInfo>();
 
-      using (var cn = connectionInfo.GetConnection(10000))
+      using (var cn = connectionInfo.GetConnection(null))
       {
         using (var cmd = cn.CreateCommand())
         {
@@ -194,11 +206,11 @@ namespace SqlBackupAndRestore.Sql
       List<DatabaseFileInfo> lst = new List<DatabaseFileInfo>();
       try
       {
-        using (var cn = connectionInfo.GetConnection(10000))
+        using (var cn = connectionInfo.GetConnection(null))
         {
           using (var cmd = cn.CreateCommand())
           {
-            cmd.CommandTimeout = 10000;
+            cmd.CommandTimeout = 600;
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = $@"SELECT fl.name, fl.filename
                                FROM 

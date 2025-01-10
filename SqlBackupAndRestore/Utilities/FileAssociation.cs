@@ -9,10 +9,10 @@ namespace SqlBackupAndRestore.Utilities
 
     #region Private Variables
 
-    private static string associationKey = $"{ApplicationHelper.Name}.RestoreBackupFile";
-    private static string executable = ApplicationHelper.ApplicationAssembly.Location;
-    private static string executableCommand = $"\"{executable}\" ui \"%1\"";
-    private static string fileExtension = ".bak";
+    private static readonly string associationKey = $"{ApplicationHelper.Name}.RestoreBackupFile";
+    private static readonly string executable = ApplicationHelper.ApplicationAssembly.Location;
+    private static readonly string executableCommand = $"\"{executable}\" ui \"%1\"";
+    private static readonly string fileExtension = ".bak";
 
     #endregion
 

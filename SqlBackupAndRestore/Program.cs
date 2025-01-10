@@ -1,8 +1,10 @@
 ﻿using CommandLine;
 using SqlBackupAndRestore.Commands;
 using SqlBackupAndRestore.Properties;
+using SqlBackupAndRestore.Sql;
 using SqlBackupAndRestore.Utilities;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,6 +31,7 @@ namespace SqlBackupAndRestore
       if (args.Length == 2 && args[0] == "ui" && File.Exists(args[1]))
       {
         Settings.Default.RestoreSourceFile = args[1];
+        Settings.Default.RestoreDestinationDatabaseName = SqlRestore.GetSuggestedRestoreDatabaseName();
         Settings.Default.Save();
       }
       else if (args.Length != 0)
