@@ -41,6 +41,11 @@ SqlBackupAndRestore.exe backup
 ```
 
 ```text
+  Backup a database with windows authentication:
+    SqlBackupAndRestore backup --backupFile MyDatabase.bak --database MyDatabase --localSqlServer MyLocalSQLServer
+  Backup a database with Sql authentication:
+    SqlBackupAndRestore backup --backupFile MyDatabase.bak --database MyDatabase --password password --localSqlServer MyLocalSQLServer --userName user
+
   -s, --localSqlServer    Required. Local Sql Server name
 
   -u, --userName          (Default: ) SQL Server username
@@ -58,6 +63,12 @@ SqlBackupAndRestore.exe restore
 ```
 
 ```text
+  USAGE:
+  Restore a database with windows authentication:
+    SqlBackupAndRestore restore --backupFile MyDatabase.bak --database MyDatabase --localSqlServer MyLocalSQLServer
+  Restore a database with Sql authentication:
+    SqlBackupAndRestore restore --backupFile MyDatabase.bak --database MyDatabase --password password --localSqlServer MyLocalSQLServer --userName user
+
   -s, --localSqlServer    Required. Local Sql Server name
 
   -u, --userName          (Default: ) SQL Server username
