@@ -1,6 +1,6 @@
 # SqlBackupAndRestore
 
-SqlBackuAndRestore is a windows application that easily backs up and restores a local SQL server. It is quick and easy to learn. When you open the first time you will get prompted to associate .bak files and if you accept you will be able to double click the *.bak file which will launch the application automatically for you to use.
+SqlBackuAndRestore is a windows application that easily backs up and restores a local SQL server database. It is quick and easy to learn. When you open the first time you will get prompted to associate .bak files and if you accept you will be able to double click the *.bak file which will launch the application automatically for you to use.
 
 It also has a command line to perform all the same functionality.
 
