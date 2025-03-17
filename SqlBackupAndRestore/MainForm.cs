@@ -74,7 +74,10 @@ namespace SqlBackupAndRestore
 
     private void AboutMenuItem_Click(object sender, EventArgs e)
     {
-      MessageBox.Show(this, "About message", Application.ProductName);
+      using (var dlg = new AboutForm())
+      {
+        dlg.ShowDialog(this);
+      }
     }
 
     private void ChangeSqlServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

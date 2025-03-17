@@ -1,13 +1,26 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 using SqlBackupAndRestore.Properties;
 using SqlBackupAndRestore.Utilities;
 using System;
+using System.Collections.Generic;
 
 namespace SqlBackupAndRestore.Commands
 {
   [Verb("fileassoc", HelpText = "Associates bak files with the executable to automatically load restore UI.")]
   internal sealed class FileAssociationCommand : ICommand
   {
+
+    [Usage()]
+    public static IEnumerable<Example> Examples
+    {
+      get
+      {
+        return new List<Example>() {
+          new Example("Associate bak files", new RestoreCommand())
+        };
+      }
+    }
 
     #region ICommand
 

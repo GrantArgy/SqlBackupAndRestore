@@ -10,6 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using CommandLine.Text;
 
 namespace SqlBackupAndRestore.Commands
 {
@@ -46,6 +47,18 @@ namespace SqlBackupAndRestore.Commands
       Console.CursorVisible = false;
       Console.SetCursorPosition(0, Console.CursorTop);
       Console.Write(progressBar);
+    }
+
+    [Usage()]
+    public static IEnumerable<Example> Examples
+    {
+      get
+      {
+        return new List<Example>() {
+          new Example("Restore a database with windows authentication", new RestoreCommand() { SqlServer = "MyLocalSQLServer", BackupFile = "MyDatabase.bak", Database = "MyDatabase"}),
+          new Example("Restore a database with Sql authentication", new RestoreCommand() { SqlServer = "MyLocalSQLServer", BackupFile = "MyDatabase.bak", Database = "MyDatabase", UserName = "user", Password = "password"})
+        };
+      }
     }
 
     #region ICommand

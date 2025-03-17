@@ -1,6 +1,8 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 using SqlBackupAndRestore.Sql;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -41,6 +43,18 @@ namespace SqlBackupAndRestore.Commands
       Console.CursorVisible = false;
       Console.SetCursorPosition(0, Console.CursorTop);
       Console.Write(progressBar);
+    }
+
+    [Usage()]
+    public static IEnumerable<Example> Examples
+    {
+      get
+      {
+        return new List<Example>() {
+          new Example("Backup a database with windows authentication", new BackupCommand() { SqlServer = "MyLocalSQLServer", BackupFile = "MyDatabase.bak", Database = "MyDatabase"}),
+          new Example("Backup a database with Sql authentication", new BackupCommand() { SqlServer = "MyLocalSQLServer", BackupFile = "MyDatabase.bak", Database = "MyDatabase", UserName = "user", Password = "password"})
+        };
+      }
     }
 
     #region ICommand
