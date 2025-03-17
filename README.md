@@ -18,6 +18,18 @@ Simply install the application
 
 On first load the application will ask if you want to associate .bak files with this application. I suggest you do as it makes restoring an SQL database alot easier simply by double clicking the .bak file. You will be presented with the UI to check details and you still need to manually restore from that point, it doesn't automatically do it for good reason.
 
+The restore screen will appear as the default screen. You then setup your Sql connection info by clicking the change link and entering the relevant information. Once done you choose the file which can be a .bak file of a .zip file so long as the zip file has the .bak file inside. Once done this will determine the name of the database but you can change if required. Once ready simply hit the restore button. It will overwrite the database if it exists.
+
+<img src="/images/RestoreBlank.png" alt="Restore Screen"/>
+
+The backup screen can be selected from the menu. You then setup your Sql connection info by clicking the change link and entering the relevant information. Once done you choose the database which you wish to backup. Once done this will determine the name of the backup file based upon the database name and date, but you can change to whatever you like. Once ready simply hit the backup button. It will overwrite the database if it exists.
+
+<img src="/images/BackupBlank.png" alt="Backup Screen"/>
+
+The sql connect screen allows you to setup to any local sql server with relevant credentials. Once chosen this is then set as the default connection info when using the application, but can be changed anytime.
+
+<img src="/images/SqlConnect.png" alt="Sql Connect Screen"/>
+
 ### Command Line
 
 ```cmd
