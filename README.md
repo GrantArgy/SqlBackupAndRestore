@@ -53,6 +53,7 @@ SqlBackupAndRestore.exe backup
 ```
 
 ```text
+  USAGE:
   Backup a database with windows authentication:
     SqlBackupAndRestore backup --backupFile MyDatabase.bak --database MyDatabase --localSqlServer MyLocalSQLServer
   Backup a database with Sql authentication:
