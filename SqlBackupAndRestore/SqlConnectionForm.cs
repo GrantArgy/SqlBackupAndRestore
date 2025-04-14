@@ -46,7 +46,7 @@ namespace SqlBackupAndRestore
 
     private void TestConnectionButton_Click(object sender, EventArgs e)
     {
-      TestSqlConnection(false);
+      TestSqlConnection(true);
     }
 
     private void btnOK_Click(object sender, EventArgs e)
